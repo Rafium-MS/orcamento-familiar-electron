@@ -104,3 +104,35 @@ Siga os passos abaixo para executar o projeto em seu ambiente de desenvolvimento
 ## 📂 Estrutura do Projeto
 
 A estrutura de arquivos e pastas do projeto está organizada da seguinte forma:
+
+orcamento-familiar-electron/
+├── assets/         # Contém o banco de dados SQLite (database.db)
+├── styles/         # Arquivos de estilização (CSS)
+├── views/          # Arquivos HTML para as diferentes telas (despesas, receitas, etc.)
+├── main.js         # Processo principal do Electron (gerencia janelas e eventos)
+├── preload.js      # Script que roda antes da página web, para comunicação segura
+├── database.js     # Configuração e inicialização do banco de dados
+├── index.html      # Estrutura principal da interface (página de entrada)
+├── renderer.js     # Lógica do processo de renderização (manipulação do DOM)
+├── package.json    # Metadados e dependências do projeto
+└── README.md       # Este arquivo
+
+---
+
+## 🤝 Como Contribuir
+
+Contribuições são o que tornam a comunidade de código aberto um lugar incrível para aprender, inspirar e criar. Qualquer contribuição que você fizer será **muito bem-vinda**.
+
+1.  Faça um **Fork** do projeto.
+2.  Crie uma nova **Branch** (`git checkout -b feature/sua-feature`).
+3.  Faça o **Commit** das suas alterações (`git commit -m 'Adiciona nova feature'`).
+4.  Faça o **Push** para a Branch (`git push origin feature/sua-feature`).
+5.  Abra um **Pull Request**.
+
+Você também pode contribuir abrindo uma [issue](https://github.com/seu-usuario/orcamento-familiar-electron/issues) para relatar bugs ou sugerir novas funcionalidades. 😊
+
+---
+
+## 📄 Licença
+
+Este projeto está licenciado sob a Licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
