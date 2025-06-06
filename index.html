@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Orçamento Familiar</title>
+  <link rel="stylesheet" href="styles/style.css">
+  <script src="../node_modules/chart.js/dist/chart.umd.js"></script>
+</head>
+<body>
+  <h1>Orçamento Familiar</h1>
+
+  <div id="tabs">
+    <button onclick="carregarTela('resumo')">Resumo</button>
+    <button onclick="carregarTela('receitas')">Receitas</button>
+    <button onclick="carregarTela('despesas')">Despesas</button>
+    <button onclick="carregarTela('metas')">Metas</button>
+  </div>
+
+  <div id="conteudo"></div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

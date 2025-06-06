@@ -1,0 +1,35 @@
+<h2>Receitas</h2>
+<form id="form-receitas">
+  <input type="text" id="descricao" placeholder="Descrição" required>
+  <input type="number" id="valor" placeholder="Valor" required>
+  <input type="date" id="data" required>
+  <button type="submit">Adicionar</button>
+</form>
+
+<ul id="lista-receitas"></ul>
+
+<script>
+function receitasInit() {
+  const lista = document.getElementById("lista-receitas");
+  const form = document.getElementById("form-receitas");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const dados = {
+      descricao: document.getElementById("descricao").value,
+      valor: parseFloat(document.getElementById("valor").value),
+      data: document.getElementById("data").value
+    };
+    window.api.enviar("adicionar-receita", dados);
+  });
+
+  window.api.receber("receitas-atualizadas", (receitas) => {
+    lista.innerHTML = "";
+    receitas.forEach((r) => {
+      lista.innerHTML += `<li>${r.data} - ${r.descricao}: R$ ${r.valor.toFixed(2)}</li>`;
+    });
+  });
+
+  window.api.enviar("carregar-receitas");
+}
+</script>

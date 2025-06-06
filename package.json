@@ -1,0 +1,17 @@
+{
+  "name": "orcamento-familiar-electron",
+  "version": "1.0.0",
+  "description": "Aplicativo de Orçamento Familiar em Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "electron": "^28.0.0",
+    "sqlite3": "^5.1.7"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

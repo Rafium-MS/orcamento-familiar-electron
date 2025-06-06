@@ -1,0 +1,45 @@
+<h2>Despesas</h2>
+<form id="form-despesas">
+  <input type="text" id="descricao" placeholder="Descrição" required>
+  <input type="number" id="valor" placeholder="Valor" required>
+  <input type="date" id="data" required>
+  <select id="categoria">
+    <option>Alimentação</option>
+    <option>Moradia</option>
+    <option>Transporte</option>
+    <option>Saúde</option>
+    <option>Educação</option>
+    <option>Lazer</option>
+    <option>Outros</option>
+  </select>
+  <button type="submit">Adicionar</button>
+</form>
+
+<ul id="lista-despesas"></ul>
+
+<script>
+function despesasInit() {
+  const lista = document.getElementById("lista-despesas");
+  const form = document.getElementById("form-despesas");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const dados = {
+      descricao: document.getElementById("descricao").value,
+      valor: parseFloat(document.getElementById("valor").value),
+      data: document.getElementById("data").value,
+      categoria: document.getElementById("categoria").value
+    };
+    window.api.enviar("adicionar-despesa", dados);
+  });
+
+  window.api.receber("despesas-atualizadas", (despesas) => {
+    lista.innerHTML = "";
+    despesas.forEach((d) => {
+      lista.innerHTML += `<li>${d.data} - ${d.descricao}: R$ ${d.valor.toFixed(2)} [${d.categoria}]</li>`;
+    });
+  });
+
+  window.api.enviar("carregar-despesas", "Todas");
+}
+</script>

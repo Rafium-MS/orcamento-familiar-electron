@@ -1,0 +1,107 @@
+<h2>Resumo</h2>
+<div id="resumo">
+  <p id="total-receitas">Total de Receitas: R$ 0.00</p>
+  <p id="total-despesas">Total de Despesas: R$ 0.00</p>
+  <p id="saldo">Saldo: R$ 0.00</p>
+</div>
+
+<button id="btn-atualizar">Atualizar Resumo</button>
+<canvas id="grafico-mensal" width="600" height="400"></canvas>
+
+<button id="btn-relatorio-categoria">Relatório por Categoria/Mês</button>
+<canvas id="grafico-categoria" width="600" height="400"></canvas>
+
+<script>
+function resumoInit() {
+  const btn = document.getElementById("btn-atualizar");
+  const ctx = document.getElementById("grafico-mensal").getContext("2d");
+  const ctxCategoria = document.getElementById("grafico-categoria").getContext("2d");
+
+  let chartInstance;
+  let chartCategoria;
+
+  btn.addEventListener("click", () => {
+    window.api.enviar("carregar-resumo");
+    window.api.enviar("carregar-grafico");
+  });
+
+  window.api.receber("resumo-atualizado", (resumo) => {
+    document.getElementById("total-receitas").textContent = `Total de Receitas: R$ ${resumo.receitas.toFixed(2)}`;
+    document.getElementById("total-despesas").textContent = `Total de Despesas: R$ ${resumo.despesas.toFixed(2)}`;
+    document.getElementById("saldo").textContent = `Saldo: R$ ${resumo.saldo.toFixed(2)}`;
+  });
+
+  window.api.receber("grafico-atualizado", (dados) => {
+    const { meses, receitas, despesas } = dados;
+
+    if (chartInstance) {
+      chartInstance.destroy();
+    }
+
+    chartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: meses,
+        datasets: [
+          {
+            label: 'Receitas',
+            data: receitas,
+            backgroundColor: 'rgba(75, 192, 192, 0.7)'
+          },
+          {
+            label: 'Despesas',
+            data: despesas,
+            backgroundColor: 'rgba(255, 99, 132, 0.7)'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top'
+          },
+          title: {
+            display: true,
+            text: 'Receitas e Despesas Mensais'
+          }
+        }
+      }
+    });
+
+document.getElementById("btn-relatorio-categoria").addEventListener("click", () => {
+  window.api.enviar("carregar-relatorio-categoria");
+});
+
+window.api.receber("relatorio-categoria-atualizado", (dados) => {
+  const { meses, categorias, valores } = dados;
+
+  if (chartCategoria) {
+    chartCategoria.destroy();
+  }
+
+  chartCategoria = new Chart(ctxCategoria, {
+    type: 'bar',
+    data: {
+      labels: meses,
+      datasets: categorias.map((cat, index) => ({
+        label: cat,
+        data: valores[cat],
+        backgroundColor: `hsl(${index * 50}, 70%, 60%)`
+      }))
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'top' },
+        title: { display: true, text: 'Despesas por Categoria/Mês' }
+      }
+    }
+  });
+});
+
+  // Carregar dados iniciais
+  window.api.enviar("carregar-resumo");
+  window.api.enviar("carregar-grafico");
+}
+</script>

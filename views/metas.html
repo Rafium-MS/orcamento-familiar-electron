@@ -1,0 +1,36 @@
+<h2>Metas Financeiras</h2>
+<form id="form-metas">
+  <input type="text" id="descricao" placeholder="Descrição" required>
+  <input type="number" id="valor" placeholder="Valor da Meta" required>
+  <input type="number" id="valor_atual" placeholder="Valor Atual">
+  <button type="submit">Adicionar/Atualizar</button>
+</form>
+
+<ul id="lista-metas"></ul>
+
+<script>
+function metasInit() {
+  const lista = document.getElementById("lista-metas");
+  const form = document.getElementById("form-metas");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const dados = {
+      descricao: document.getElementById("descricao").value,
+      valor: parseFloat(document.getElementById("valor").value),
+      valor_atual: parseFloat(document.getElementById("valor_atual").value) || 0
+    };
+    window.api.enviar("adicionar-ou-atualizar-meta", dados);
+  });
+
+  window.api.receber("metas-atualizadas", (metas) => {
+    lista.innerHTML = "";
+    metas.forEach((m) => {
+      const progresso = m.valor > 0 ? (m.valor_atual / m.valor) * 100 : 0;
+      lista.innerHTML += `<li>${m.descricao} - R$ ${m.valor_atual.toFixed(2)} / R$ ${m.valor.toFixed(2)} (${progresso.toFixed(1)}%)</li>`;
+    });
+  });
+
+  window.api.enviar("carregar-metas");
+}
+</script>
